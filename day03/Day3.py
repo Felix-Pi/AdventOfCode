@@ -38,6 +38,8 @@ def multipleMoves(map, steps):
 
 def test():
     input_example = readInput('example_input.txt')
+
+    # part1
     print('Test move: {}'.format(move(input_example, 3, 1)))
 
     # part2
@@ -53,5 +55,6 @@ if __name__ == '__main__':
     input = readInput('input.txt')
     print('part1 move: {}'.format(move(input, 3, 1)))
 
+    # part2
     moves = ((1, 1), (3, 1), (5, 1), (7, 1), (1, 2))
     print('part2 move: {}'.format(multipleMoves(input, moves)))
