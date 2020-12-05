@@ -16,30 +16,19 @@ def calcPartition(input, lower, upper):
 
 
 def part01():
-    seats = readInput()
-    highestSeatId = 0
+    seatsIds = []
 
-    for seat in seats:
+    for seat in readInput():
         row = calcPartition(seat[:7], 0, 127)
         col = calcPartition(seat[7:], 0, 7)
-        seatId = row * 8 + col
 
-        if seatId > highestSeatId:
-            highestSeatId = seatId
+        seatsIds.append(row * 8 + col)
 
-    return highestSeatId
+    return seatsIds
 
 
 def part02():
-    seats = readInput()
-    plane = []
-
-    for seat in seats:
-        row = calcPartition(seat[:7], 0, 127)
-        col = calcPartition(seat[7:], 0, 7)
-        seatId = row * 8 + col
-
-        plane.append(seatId)
+    plane = part01()
 
     plane.sort()
 
@@ -57,12 +46,12 @@ def test():
     for seatSpecification in seats:
         row = calcPartition(seatSpecification[:7], 0, 127)
         col = calcPartition(seatSpecification[7:], 0, 7)
-        seatId = row * 8 + col
 
-        assert (seats[seatSpecification] == seatId)
+        assert (seats[seatSpecification] == row * 8 + col)
 
 
 if __name__ == '__main__':
     test()
-    print('part01: Highest seatId: {}'.format(part01()))
+
+    print('part01: Highest seatId: {}'.format(max(part01())))
     print('part02: My seatId: {}'.format(part02()))
