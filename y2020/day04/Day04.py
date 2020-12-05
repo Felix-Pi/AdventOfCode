@@ -7,6 +7,29 @@ def readInput(file):
     return [line.replace('\n', ' ') for line in entries]
 
 
+def parse_passport(string, cid_is_optional=True):
+    required_fields = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid', 'cid']
+
+    attributes = string.split()
+    passport = {}
+
+    for attribute in attributes:
+        key, value = attribute.split(':')
+        passport[key] = value
+
+    missing_keys = [x for x in required_fields if x not in passport]
+
+    isValid = True
+
+    if len(missing_keys) > 0:
+        if len(missing_keys) == 1 and missing_keys[0] == 'cid' and cid_is_optional is True:
+            isValid = True
+        else:
+            isValid = False
+
+    return isValid, passport
+
+
 def parse_value(passport):
     for key in passport:
         value = passport[key]
@@ -43,29 +66,12 @@ def parse_value(passport):
 
 
 def validate(entries, cid_is_optional=True):
-    required_fields = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid', 'cid']
-
     valid_entries = 0
     valid_passports = 0
 
     for entry in entries:
-        attributes = entry.split()
-        passport = {}
 
-        for attribute in attributes:
-            key, value = attribute.split(':')
-            passport[key] = value
-
-        missing_keys = [x for x in required_fields if x not in passport]
-
-        isValid = True
-
-        # ToDo: move to function
-        if len(missing_keys) > 0:
-            if len(missing_keys) == 1 and missing_keys[0] == 'cid' and cid_is_optional is True:
-                isValid = True
-            else:
-                isValid = False
+        isValid, passport = parse_passport(entry, cid_is_optional)
 
         if isValid is True:
             if parse_value(passport) is True:
