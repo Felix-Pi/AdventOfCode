@@ -19,4 +19,4 @@ if __name__ == '__main__':
     test()
 
     print('part01: : {}'.format(part01()))
-    print('part02: : {}'.format(part02()))
+    print('part02: : {}\n'.format(part02()))

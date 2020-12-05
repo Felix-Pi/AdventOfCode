@@ -27,13 +27,11 @@ def part01():
     return seatsIds
 
 
-def part02():
-    plane = part01()
-
-    plane.sort()
+def part02(seatIds):
+    seatIds.sort()
 
     lastSeatId = 0
-    for seat in plane:
+    for seat in seatIds:
         if seat - 2 == lastSeatId:
             return lastSeatId + 1
 
@@ -50,8 +48,27 @@ def test():
         assert (seats[seatSpecification] == row * 8 + col)
 
 
+def binaryApproach():
+    f = open('input.txt')
+    seats = [int(line.replace('\n', '').replace('F', '0').replace('B', '1').replace('L', '0').replace('R', '1'), 2) for
+             line in
+             f.readlines()]
+
+    lastSeatId = 0
+
+    seats.sort()
+
+    for seat in seats:
+        if seat - 2 == lastSeatId:
+            return max(seats), lastSeatId + 1
+        lastSeatId = seat
+
+
 if __name__ == '__main__':
     test()
 
     print('part01: Highest seatId: {}'.format(max(part01())))
-    print('part02: My seatId: {}'.format(part02()))
+    print('part02: My seatId: {}\n'.format(part02(part01())))
+
+    binaryRes = binaryApproach()
+    print('binaryApproach: Highest seatId: {}, My seatId {}'.format(binaryRes[0], binaryRes[1]))
